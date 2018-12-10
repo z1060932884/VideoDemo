@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.vise.log.ViseLog;
 
 /**
  * @author : zzj
@@ -98,6 +100,7 @@ public class TestMovieActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // 判断当前屏幕的横竖屏状态
         int screenOritentation = getResources().getConfiguration().orientation;
+        ViseLog.e("1111111111111111111111111111"+screenOritentation);
         if (screenOritentation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏时处理
             setVideoScreenSize(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -109,7 +112,7 @@ public class TestMovieActivity extends AppCompatActivity {
             getWindow().addFlags((WindowManager.LayoutParams.FLAG_FULLSCREEN));
         } else {
             //竖屏时处理
-            setVideoScreenSize(ViewGroup.LayoutParams.MATCH_PARENT, ConvertUtils.dp2px(240));
+            setVideoScreenSize(ViewGroup.LayoutParams.MATCH_PARENT, dip2px(TestMovieActivity.this,240));
             screen_flag = true;
             volume_seek.setVisibility(View.GONE);
             volume_Image.setVisibility(View.GONE);
@@ -263,7 +266,7 @@ public class TestMovieActivity extends AppCompatActivity {
         screen_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showLog("------当前屏幕标记----："+screen_flag);
+                ViseLog.e("------当前屏幕标记----："+screen_flag);
                 if(screen_flag){
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//控制屏幕竖屏
                 }else {
@@ -305,4 +308,16 @@ public class TestMovieActivity extends AppCompatActivity {
 
         context.startActivity(starter);
     }
+
+    /**
+     * 将dp转换成px
+     * @param context
+     * @param dpValue
+     * @return
+     */
+    public static int dip2px(Context context,float dpValue){
+        final float scale = context.getResources ().getDisplayMetrics ().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
 }
