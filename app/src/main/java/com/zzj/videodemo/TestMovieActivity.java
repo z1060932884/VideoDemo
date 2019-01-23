@@ -50,6 +50,7 @@ public class TestMovieActivity extends AppCompatActivity {
     private AudioManager audioManager;//音量控制器
     private boolean screen_flag = true;//判断屏幕转向
 
+    private int currentPosition;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +85,32 @@ public class TestMovieActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(videoView!=null){
+           videoView.seekTo(currentPosition);
+        }
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+        currentPosition = videoView.getCurrentPosition();
         handler.removeMessages(UPDATA_VIDEO_NUM);
+
+        if(videoView!=null){
+            //视频暂停
+            videoView.pause();
+            play_controller_image.setImageResource(R.mipmap.video_play_blue);
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(videoView!=null){
+        }
     }
 
     @Override
